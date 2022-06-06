@@ -6,7 +6,6 @@ use AliSlsLog\Aliyun_Log_Client;
 use AliSlsLog\Models\Aliyun_Log_Models_LogItem;
 use AliSlsLog\Models\Request\Aliyun_Log_Models_PutLogsRequest;
 use AliSlsLog\SaveLogSls;
-use Aliyun\SLS\Requests\PutLogsRequest;
 use Illuminate\Support\Arr;
 use Conle\LaravelLogSLS\Helpers\ArrayHelper;
 use Illuminate\Support\Facades\Log;
@@ -123,8 +122,9 @@ class SLSLog
         } catch (\Aliyun\SLS\Exception $e) {
             Log::channel($this->errorLogChannel)->error($e->getMessage(), $contents);
             return false;
-        } catch (\Exception $e) {
-            throw $e;
+        } catch (\Exception $e) {//暂时不抛出异常
+            Log::channel($this->errorLogChannel)->error($e->getMessage(), $contents);
+            return false;
         }
     }
 
