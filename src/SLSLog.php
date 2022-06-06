@@ -4,6 +4,7 @@ namespace Conle\LaravelLogSLS;
 
 use AliSlsLog\Aliyun_Log_Client;
 use AliSlsLog\Models\Aliyun_Log_Models_LogItem;
+use AliSlsLog\Models\Request\Aliyun_Log_Models_PutLogsRequest;
 use AliSlsLog\SaveLogSls;
 use Aliyun\SLS\Requests\PutLogsRequest;
 use Illuminate\Support\Arr;
@@ -117,7 +118,7 @@ class SLSLog
             } else {
                 throw new \RuntimeException('Warning: Content Invalid.');
             }
-            $putLogsRequest = new PutLogsRequest($this->getProject(), $this->getLogStore(), $this->getTopic(), $this->getSource(), $logItems);
+            $putLogsRequest = new Aliyun_Log_Models_PutLogsRequest($this->getProject(), $this->getLogStore(), $this->getTopic(), $this->getSource(), $logItems);
             return $this->client->putLogs($putLogsRequest);
         } catch (\Aliyun\SLS\Exception $e) {
             Log::channel($this->errorLogChannel)->error($e->getMessage(), $contents);
